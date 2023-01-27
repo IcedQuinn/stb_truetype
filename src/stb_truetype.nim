@@ -69,3 +69,38 @@ proc stbtt_GetCodepointKernAdvance(
 
 proc getCodepointKernAdvance*(fontInfo: FontInfo, left, right: Rune): cint =
   stbtt_GetCodepointKernAdvance(fontInfo, left.cint, right.cint)
+
+proc stbtt_FreeBitmap(bitmap: cstring, userdata: pointer) {.importc: "stbtt_FreeBitmap", stbcall.}
+
+proc freeBitmap*(bitmap: cstring, pointer, userdata: pointer) =
+   stbtt_FreeBitmap(bitmap, userdata)
+
+proc stbtt_GetCodepointBox(info: FontInfo, codepoint: cint, x0, y0, x1, y1: ptr cint): cint {.importc: "stbtt_GetCodepointBox", stbcall.}
+
+proc getCodepointBox*(info: FontInfo, codepoint: Rune, x0, y0, x1, y1: var cint): cint =
+   return stbtt_GetCodepointBox(info, codepoint.cint, x0.addr, y0.addr, x1.addr, y1.addr)
+
+proc stbtt_GetCodepointBitmapBox(font: FontInfo, codepoint: cint, scale_x, scale_y: cfloat, ix0, iy0, ix1, iy1: ptr cint): cstring {.importc: "stbtt_GetCodepointBitmapBox", stbcall.}
+
+proc getCodepointBitmapBox*(font: FontInfo, codepoint: Rune, scale_x, scale_y: cfloat, ix0, iy0, ix1, iy1: var cint): cstring =
+   stbtt_GetCodepointBitmapBox(font, codepoint.cint, scale_x, scale_y, ix0.addr, iy0.addr, ix1.addr, iy1.addr)
+
+proc stbtt_GetCodepointBitmapBoxSubpixel(font: FontInfo, codepoint: cint, scale_x, scale_y: cfloat, ix0, iy0, ix1, iy1: ptr cint): cstring {.importc: "stbtt_GetCodepointBitmapBoxSubpixel", stbcall.}
+
+proc getCodepointBitmapBoxSubpixel*(font: FontInfo, codepoint: Rune, scale_x, scale_y: cfloat, ix0, iy0, ix1, iy1: var cint): cstring =
+   stbtt_GetCodepointBitmapBoxSubpixel(font, codepoint.cint, scale_x, scale_y, ix0.addr, iy0.addr, ix1.addr, iy1.addr)
+
+proc stbtt_GetCodepointBitmapBoxSubpixel(font: FontInfo, codepoint: cint, scale_x, scale_y, shift_x, shift_y: cfloat, ix0, iy0, ix1, iy1: ptr cint): cstring {.importc: "stbtt_GetCodepointBitmapBoxSubpixel", stbcall.}
+
+proc getCodepointBitmapBoxSubpixel*(font: FontInfo, codepoint: Rune, scale_x, scale_y, shift_x, shift_y: cfloat, ix0, iy0, ix1, iy1: var cint): cstring =
+   return stbtt_GetCodepointBitmapBoxSubpixel(font, codepoint.cint, scale_x, scale_y, shift_x, shift_y, ix0.addr, iy0.addr, ix1.addr, iy1.addr)
+
+proc stbtt_ScaleForPixelHeight(info: FontInfo, pixels: cfloat): cfloat {.importc: "stbtt_ScaleForPixelHeight", stbcall.}
+proc stbtt_ScaleForMappingEmToPixels(info: FontInfo, pixels: cfloat): cfloat {.importc: "stbtt_ScaleForMappingEmToPixels", stbcall.}
+
+proc scaleForPixelHeight*(info: FontInfo, pixels: cfloat): cfloat =
+   return stbtt_ScaleForPixelHeight(info, pixels)
+
+proc scaleForMappingEmToPixels*(info: FontInfo, pixels: cfloat): cfloat =
+   return stbtt_ScaleForMappingEmToPixels(info, pixels)
+
