@@ -104,3 +104,13 @@ proc scaleForPixelHeight*(info: FontInfo, pixels: cfloat): cfloat =
 proc scaleForMappingEmToPixels*(info: FontInfo, pixels: cfloat): cfloat =
    return stbtt_ScaleForMappingEmToPixels(info, pixels)
 
+# this is not a mistake; out_* are not written to, you pass in previously calculated results there
+proc stbtt_MakeCodepointBitmap(info: FontInfo, output: cstring, out_w, out_h, out_stride: cint, scale_x, scale_y: cfloat, codepoint: cint) {.importc: "stbtt_MakeCodepointBitmap", stbcall.}
+proc stbtt_MakeCodepointBitmapSubpixel(info: cstring, output: cstring, out_w, out_h, out_stride: cint, scale_x, scale_y, shift_x, shift_y: cfloat, codepoint: cint) {.importc: "stbtt_MakeCodepointBitmapSubpixel", stbcall.}
+
+proc makeCodepointBitmap*(info: FontInfo, output: cstring, out_w, out_h, out_stride: cint, scale_x, scale_y: cfloat, codepoint: cint) =
+   stbtt_MakeCodepointBitmap(info, output, out_w, out_h, out_stride, scale_x, scale_y, codepoint)
+
+proc makeCodepointBitmapSubpixel*(info: cstring, output: cstring, out_w, out_h, out_stride: cint, scale_x, scale_y, shift_x, shift_y: cfloat, codepoint: cint) =
+   stbtt_MakeCodepointBitmapSubpixel(info, output, out_w, out_h, out_stride, scale_x, scale_y, shift_x, shift_y, codepoint)
+
